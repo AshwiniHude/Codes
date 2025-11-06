@@ -1,0 +1,20 @@
+k = 10;   
+n = 100;   
+x = ceil(k*rand(1,n));  
+y = ceil(k*rand(1,n));
+
+function z = jointEntropy(x, y)    
+assert(numel(x) == numel(y));  
+n = numel(x);  
+x = reshape(x,1,n);  
+y = reshape(y,1,n);  
+l = min(min(x),min(y));  
+x = x-l+1;  
+y = y-l+1;  
+k = max(max(x),max(y));  
+idx = 1:n;  
+p = nonzeros(sparse(idx,x,1,n,k,n)'*sparse(idx,y,1,n,k,n)/n);  
+z = -dot(p,log2(p));  
+z = max(0,z);  
+end  
+Hxy = jointEntropy(x,y) 
