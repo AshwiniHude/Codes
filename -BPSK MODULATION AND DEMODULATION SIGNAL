@@ -1,0 +1,42 @@
+clear all; 
+close all; 
+T=1; 
+b=[1 0 1 0 1] 
+NRZ_out=[]; 
+Vp=1; 
+for index=1:size(b,2) 
+if b(index)==1 
+NRZ_out=[NRZ_out ones(1,200)*Vp]; 
+elseif b(index)==0 
+NRZ_out=[NRZ_out ones(1,200)*(-Vp)]; 
+end 
+end 
+figure(1); 
+stem(b); 
+xlabel('Time (seconds)-->') 
+ylabel('Amplitude (volts)-->') 
+title('Impulses of bits to be transmitted'); 
+figure(2); 
+plot(NRZ_out); 
+xlabel('Time (seconds)-->'); 
+ylabel('Amplitude (volts)-->'); 
+title('Generated NRZ signal'); 
+t=0.005:0.005:5; 
+f=5; 
+Modulated=NRZ_out.*(sqrt(2/T)*cos(2*pi*f*t)); 
+figure; 
+plot(Modulated); 
+xlabel('Time (seconds)-->'); 
+ylabel('Amplitude (volts)-->'); 
+title('BPSK Modulated signal'); 
+y=[]; 
+demodulated=Modulated.*(sqrt(2/T)*cos(2*pi*f*t)); 
+for i=1:200:size(demodulated,2) 
+y=[y trapz(t(i:i+199),demodulated(i:i+199))]; 
+end 
+received=y>0; 
+figure; 
+stem(received) 
+title('Impulses of Received bits'); 
+xlabel('Time (seconds)-->'); 
+ylabel('Amplitude (volts)')
