@@ -19,4 +19,4 @@ ber_theoretical(i) = erfc(sqrt(EbNo*((sin(pi/M))^2)))
 end 
 plot(snr, BER_sim) 
 plot(snr, ber_theoretical) 
-legend('BER_sim ', ber_theoretical ')
+legend('BER_sim ', 'ber_theoretical ')
