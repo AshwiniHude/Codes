@@ -1,0 +1,49 @@
+#include<P18f4520.h>
+#include<stdio.h>
+
+#pragma config OSC = HS	
+#pragma config WDT = OFF		
+#pragma config LVP = OFF	
+
+unsigned char arr1[] = "TE E&TC"; 
+unsigned char arr2[] = "GES RHSapat CoE";
+
+
+
+void InitADC(void)
+{
+    ADCON0 = 0x01;	
+    ADCON2 = 0x8E;	
+}
+
+void main(void)
+{
+    unsigned int Lresult=0, Hresult=0;
+    unsigned int Result, Result1;
+    unsigned long int voltage;
+    char adc_read[16];
+
+    TRISA |= 0x01;	
+    	
+    LCDinit() ;
+
+    
+    InitADC() ;
+    DisplayRow(0,arr1);
+    DisplayRow(1,arr2);
+    delay();
+    Result1 = 5000UL;
+    while(1)
+    {
+        ADCON0 |= 0x02;                     
+        while( !(ADCON0 & 0x02));           
+        Lresult = ADRESL;                   
+        Hresult = ADRESH;                   
+        Result = (Hresult << 8) | Lresult;	
+        voltage = ((Result*5000UL)/1024) 
+        
+        sprintf(adc_read,"AN=0x%x:%lumV",Result,voltage );
+        DisplayRow (0,adc_read); 
+        delay();
+    }
+}
