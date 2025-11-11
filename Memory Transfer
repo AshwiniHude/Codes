@@ -4,7 +4,6 @@ void main()
 	unsigned char i, arr[]={0x10,0x20,0x30,0x40,0x50};
 	data unsigned char *src_ptr;
  	data unsigned char *dest_ptr;
-	
 	src_ptr = (data unsigned char *)0x40;
 	dest_ptr = (data unsigned char *)0x50;
 	
@@ -13,9 +12,7 @@ void main()
 		*src_ptr = arr[i];
 		src_ptr++;
 	}
-
 	src_ptr=src_ptr-5;
-	
 	for(i=0;i<5;i++)
 	{
 		*dest_ptr = *src_ptr;
